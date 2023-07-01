@@ -35,7 +35,7 @@
 
         # Rust project definition
         # cf. https://github.com/nix-community/dream2nix
-        dream2nix.inputs."start-axum" =
+        dream2nix.inputs."leptops-nix-template" =
           let
             fenix = inputs.fenix.packages.${system};
             rust = fenix.complete;
@@ -57,7 +57,7 @@
               "Cargo.toml"
               "Cargo.lock"
             ];
-            projects."start-axum" = { name, ... }: {
+            projects."leptops-nix-template" = { name, ... }: {
               inherit name;
               subsystem = "rust";
               translator = "cargo-lock";
@@ -81,22 +81,22 @@
                 };
 
                 # Project and dependency overrides:
-                start-axum = common // {
+                leptops-nix-template = common // {
                   # https://github.com/leptos-rs/start-axum/issues/14
                   disableTest = {
                     cargoTestFlags = "--no-run";
                   };
                 };
-                start-axum-deps = common;
+                leptops-nix-template-deps = common;
               };
           };
 
         # Flake outputs
         # TODO: release package (and `nix run`)
-        packages = config.dream2nix.outputs.start-axum.packages;
+        packages = config.dream2nix.outputs.leptops-nix-template.packages;
         devShells.default = pkgs.mkShell {
           inputsFrom = [
-            config.dream2nix.outputs.start-axum.devShells.default
+            config.dream2nix.outputs.leptops-nix-template.devShells.default
             config.treefmt.build.devShell
             config.mission-control.devShell
             config.flake-root.devShell
