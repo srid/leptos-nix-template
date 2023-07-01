@@ -136,10 +136,10 @@
             tailwindjit.command = lib.getExe (pkgs.writeShellApplication {
               name = "tailwindjit";
               text = ''
-              set -x
-              ${pkgs.nodePackages.tailwindcss}/bin/tailwind \
-                -i style/input.css -o style/output.css -c tailwind.config.js -w
-            '';
+                set -x
+                ${pkgs.nodePackages.tailwindcss}/bin/tailwind \
+                  -i style/input.css -o style/output.css -c tailwind.config.js -w
+              '';
             });
           };
         };
