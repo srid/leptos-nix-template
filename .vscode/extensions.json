@@ -2,6 +2,7 @@
     "recommendations": [
         "bram209.leptos-language-server",
         "rust-lang.rust-analyzer",
-        "mkhl.direnv"
+        "mkhl.direnv",
+        "bradlc.vscode-tailwindcss"
     ]
 }
