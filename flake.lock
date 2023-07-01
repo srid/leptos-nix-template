@@ -432,6 +432,21 @@
         "type": "github"
       }
     },
+    "proc-flake": {
+      "locked": {
+        "lastModified": 1671388981,
+        "narHash": "sha256-p++h07G0qiJtnjnyJRPehLIXJ3sU5zGtpOfZbnUxuZU=",
+        "owner": "srid",
+        "repo": "proc-flake",
+        "rev": "676b5af467e52c06aa8a9165edb3345c6dbbabde",
+        "type": "github"
+      },
+      "original": {
+        "owner": "srid",
+        "repo": "proc-flake",
+        "type": "github"
+      }
+    },
     "pruned-racket-catalog": {
       "flake": false,
       "locked": {
@@ -457,6 +472,7 @@
         "flake-root": "flake-root",
         "mission-control": "mission-control",
         "nixpkgs": "nixpkgs_3",
+        "proc-flake": "proc-flake",
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
       }

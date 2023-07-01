@@ -44,7 +44,11 @@ fn HomePage(cx: Scope) -> impl IntoView {
     let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! { cx,
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <div class="mx-auto my-8 text-center md:container">
+            <h1 class="mb-4 text-3xl font-bold text-pink-500">"Leptops w/ Tailwind!"</h1>
+            <button
+                class="p-4 border-2 rounded-full shadow-lg active:shadow-none bg-blue-50 hover:bg-blue-200 active:bg-blue-500"
+                on:click=on_click>"Click Me: " {count}</button>
+        </div>
     }
 }

@@ -11,6 +11,7 @@
     # Dev tools
     treefmt-nix.url = "github:numtide/treefmt-nix";
     mission-control.url = "github:Platonic-Systems/mission-control";
+    proc-flake.url = "github:srid/proc-flake";
     flake-root.url = "github:srid/flake-root";
   };
 
@@ -21,6 +22,7 @@
         inputs.dream2nix.flakeModuleBeta
         inputs.treefmt-nix.flakeModule
         inputs.mission-control.flakeModule
+        inputs.proc-flake.flakeModule
         inputs.flake-root.flakeModule
       ];
       perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
@@ -108,6 +110,7 @@
             rust-analyzer
             dart-sass
             cargo-leptos
+            nodePackages.tailwindcss
           ];
         };
 
@@ -121,6 +124,26 @@
           };
         };
 
+        proc.groups.watch-project = {
+          processes = {
+            cargo-leptops-watch.command = lib.getExe (pkgs.writeShellApplication {
+              name = "cargo-leptops-watch";
+              text = ''
+                set -x
+                cargo leptos watch "$@"
+              '';
+            });
+            tailwindjit.command = lib.getExe (pkgs.writeShellApplication {
+              name = "tailwindjit";
+              text = ''
+              set -x
+              ${pkgs.nodePackages.tailwindcss}/bin/tailwind \
+                -i style/input.css -o style/output.css -c tailwind.config.js -w
+            '';
+            });
+          };
+        };
+
         # Makefile'esque but in Nix. Add your dev scripts here.
         # cf. https://github.com/Platonic-Systems/mission-control
         mission-control.scripts = {
@@ -130,11 +153,8 @@
           };
 
           watch = {
-            exec = ''
-              set -x
-              cargo leptos watch "$@"
-            '';
-            description = "Run leptops watch";
+            exec = config.proc.groups.watch-project.package;
+            description = "Run the project, recompiling as necessary";
           };
 
           build = {
