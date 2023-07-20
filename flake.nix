@@ -64,7 +64,7 @@
               let
                 common = {
                   add-deps = with pkgs; with pkgs.darwin.apple_sdk.frameworks; {
-                    nativeBuildInputs = old: old ++ lib.optionals stdenv.isDarwin [
+                    nativeBuildInputs = old: old ++ [ pkg-config openssl ] ++ lib.optionals stdenv.isDarwin [
                       libiconv
                       Security
                     ];
