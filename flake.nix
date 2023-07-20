@@ -10,7 +10,6 @@
 
     # Dev tools
     treefmt-nix.url = "github:numtide/treefmt-nix";
-    mission-control.url = "github:Platonic-Systems/mission-control";
     proc-flake.url = "github:srid/proc-flake";
     flake-root.url = "github:srid/flake-root";
   };
@@ -21,7 +20,6 @@
       imports = [
         inputs.dream2nix.flakeModuleBeta
         inputs.treefmt-nix.flakeModule
-        inputs.mission-control.flakeModule
         inputs.proc-flake.flakeModule
         inputs.flake-root.flakeModule
       ];
@@ -98,7 +96,6 @@
           inputsFrom = [
             config.dream2nix.outputs.leptops-nix-template.devShells.default
             config.treefmt.build.devShell
-            config.mission-control.devShell
             config.flake-root.devShell
           ];
           shellHook = ''
@@ -106,11 +103,14 @@
             export RUST_SRC_PATH=${pkgs.rustPlatform.rustLibSrc}
           '';
           nativeBuildInputs = with pkgs; [
+            just
             cargo-watch
             rust-analyzer
             dart-sass
             cargo-leptos
             nodePackages.tailwindcss
+            config.treefmt.build.wrapper
+            config.proc.groups.watch-leptos-project.package
           ];
         };
 
@@ -124,7 +124,7 @@
           };
         };
 
-        proc.groups.watch-project = {
+        proc.groups.watch-leptos-project = {
           processes = {
             cargo-leptops-watch.command = lib.getExe (pkgs.writeShellApplication {
               name = "cargo-leptops-watch";
@@ -142,29 +142,6 @@
               '';
             });
           };
-        };
-
-        # Makefile'esque but in Nix. Add your dev scripts here.
-        # cf. https://github.com/Platonic-Systems/mission-control
-        mission-control.scripts = {
-          fmt = {
-            exec = config.treefmt.build.wrapper;
-            description = "Auto-format project tree";
-          };
-
-          watch = {
-            exec = config.proc.groups.watch-project.package;
-            description = "Run the project, recompiling as necessary";
-          };
-
-          build = {
-            exec = ''
-              set -x
-              cargo leptos build --release "$@"
-            '';
-            description = "Run leptops build";
-          };
-
         };
       };
     };

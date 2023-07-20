@@ -7,5 +7,5 @@ This tempate is an adaptation of [start-axum](https://github.com/leptos-rs/start
 Enter the nix shell and then run,
 
 ```sh
-, watch
+just watch
 ```
